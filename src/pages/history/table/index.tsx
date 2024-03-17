@@ -75,6 +75,7 @@ const HistoryTable: FC = () => {
   useEffect(() => {
     if (isSuccess) {
       message.success('Успешно удалено')
+      console.log(selectedUserID)
     }
   }, [isSuccess])
 
