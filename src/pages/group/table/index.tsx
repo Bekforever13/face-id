@@ -11,7 +11,8 @@ import { useNavigate } from 'react-router-dom'
 
 const GroupsTable: FC = () => {
   const { selectedOrganizationID } = useSelectors()
-  const { setGroupsModalOpen, setGroupsToEdit, setSelectedGroupID } = useActions()
+  const { setGroupsModalOpen, setGroupsToEdit, setSelectedGroupID, setSelectedUserID } =
+    useActions()
   const [deleteGroup, { isSuccess }] = useDeleteGroupMutation()
   const { data, isLoading } = useGetAllGroupsQuery(selectedOrganizationID)
   const navigate = useNavigate()
@@ -88,6 +89,10 @@ const GroupsTable: FC = () => {
       message.success('Успешно удалено')
     }
   }, [isSuccess])
+
+  useEffect(() => {
+    setSelectedUserID(0)
+  }, [])
 
   return (
     <Table

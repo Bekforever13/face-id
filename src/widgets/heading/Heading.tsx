@@ -3,6 +3,8 @@ import { FC } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import type { DatePickerProps } from 'antd'
 import { useActions } from '@/features/hooks/useActions'
+import ruRU from 'antd/lib/locale/ru_RU'
+import LocaleProvider from 'antd/es/locale'
 
 type Props = {
   title: string
@@ -15,13 +17,18 @@ const Heading: FC<Props> = ({ title, event }) => {
   const { setSelectedDate } = useActions()
 
   const onChange: DatePickerProps['onChange'] = (_, dateString) => {
+    console.log(dateString)
     setSelectedDate(dateString)
   }
 
   return (
     <div className="flex items-center justify-between">
       <h1>{title}</h1>
-      {pathname === '/history' && <DatePicker onChange={onChange} />}
+      {pathname === '/history' && (
+        <LocaleProvider locale={ruRU}>
+          <DatePicker placeholder="Выберите дату" onChange={onChange} />
+        </LocaleProvider>
+      )}
       <div className="flex items-center gap-5">
         <Button onClick={() => navigate(-1)} type="default">
           Назад

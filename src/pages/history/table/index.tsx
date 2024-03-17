@@ -1,28 +1,28 @@
-import { useEffect, FC } from 'react'
-import { Button, Image, Popconfirm, Space, Table, message } from 'antd'
+import { FC, useEffect } from 'react'
+import { Image, Table } from 'antd'
 import type { TableProps } from 'antd'
-import { useDeleteGroupMutation, useGetAllHistoryQuery } from '@/app/store/index.endpoints'
-import { BsArrowRight, BsTrash } from 'react-icons/bs'
+import { useGetAllHistoryQuery } from '@/app/store/index.endpoints'
 import { IHistoryData } from '@/app/store/history/index.types'
 import { useSelectors } from '@/features/hooks/useSelectors'
+import { useActions } from '@/features/hooks/useActions'
 
 const HistoryTable: FC = () => {
-  const { selectedDate, selectedUserID } = useSelectors()
+  const { selectedDate } = useSelectors()
   const { data, isLoading } = useGetAllHistoryQuery(selectedDate)
-  const [deleteGroup, { isSuccess }] = useDeleteGroupMutation()
-
-  const handleDelete = (id: number) => deleteGroup(id)
+  const { setSelectedOrganizationID } = useActions()
 
   const columns: TableProps<IHistoryData>['columns'] = [
     {
       title: 'Пользователь',
-      dataIndex: 'child_id',
-      key: 'child_id',
+      dataIndex: 'child',
+      key: 'child',
+      render: (_, rec) => rec.child.first_name + ' ' + rec.child.last_name,
     },
     {
       title: 'Группа',
-      dataIndex: 'group_id',
-      key: 'group_id',
+      dataIndex: 'group',
+      key: 'group',
+      render: (_, rec) => rec.group.name,
     },
     {
       title: 'Схожесть в %',
@@ -48,36 +48,11 @@ const HistoryTable: FC = () => {
         )
       },
     },
-    {
-      title: 'Действия',
-      key: 'action',
-      render: (_, rec) => (
-        <Space size="middle">
-          <Popconfirm
-            title="Вы действительно хотите удалить?"
-            okText="Да"
-            cancelText="Отмена"
-            onConfirm={() => handleDelete(rec.id)}
-          >
-            <Button type="default" className="flex items-center">
-              <BsTrash color="red" size="22" />
-            </Button>
-          </Popconfirm>
-          <Button type="primary" className="flex items-center gap-2">
-            Смотреть
-            <BsArrowRight size="22" />
-          </Button>
-        </Space>
-      ),
-    },
   ]
 
   useEffect(() => {
-    if (isSuccess) {
-      message.success('Успешно удалено')
-      console.log(selectedUserID)
-    }
-  }, [isSuccess])
+    setSelectedOrganizationID(0)
+  }, [])
 
   return (
     <Table
