@@ -10,7 +10,7 @@ export const OrganizationsApi = api.injectEndpoints({
       }),
       providesTags: ['organizations'],
     }),
-    getOneOrganization: builder.query<unknown, void>({
+    getOneOrganization: builder.query<unknown, void | number>({
       query: () => ({
         url: '/kindergartens',
       }),

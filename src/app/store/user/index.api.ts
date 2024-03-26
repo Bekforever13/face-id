@@ -4,7 +4,7 @@ import { IUserData, IUserFormData } from './index.types'
 
 export const UsersAPI = api.injectEndpoints({
   endpoints: (builder) => ({
-    getAllUsers: builder.query<IData<IUserData>, number>({
+    getAllUsers: builder.query<IData<IUserData>, number | void>({
       query: (group_id) => ({
         url: `/children?image=1${group_id ? `&group_id=${group_id}` : ''}`,
       }),

@@ -6,17 +6,17 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { FC } from 'react'
 import { FaChild, FaLayerGroup } from 'react-icons/fa6'
 
-const { Header, Content, Sider } = Layout
+const { Content, Sider } = Layout
 
 const menuItems: MenuProps['items'] = [
-  { key: '/', icon: <MdChildCare />, label: 'Главная' },
+  // { key: '/', icon: <MdChildCare />, label: 'Главная' },
   { key: '/organizations', icon: <MdChildCare />, label: 'Организации' },
   { key: '/group', icon: <FaLayerGroup />, label: 'Группы' },
   { key: '/users', icon: <FaChild />, label: 'Пользователи' },
   { key: '/history', icon: <FaHistory />, label: 'История' },
 ]
 
-const AppLayout: FC = () => {
+const AdminLayout: FC = () => {
   const { pathname } = useLocation()
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -38,9 +38,6 @@ const AppLayout: FC = () => {
         />
       </Sider>
       <Layout style={{ marginLeft: 200 }}>
-        <Header
-          style={{ background: colorBgContainer, display: 'flex', alignItems: 'center' }}
-        ></Header>
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
           <div
             style={{
@@ -58,4 +55,4 @@ const AppLayout: FC = () => {
   )
 }
 
-export { AppLayout }
+export { AdminLayout }

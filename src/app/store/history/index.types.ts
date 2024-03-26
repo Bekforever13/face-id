@@ -16,3 +16,8 @@ export interface IHistoryData {
 export interface IHistoryInitState {
   selectedDate: string | string[]
 }
+
+export interface IHistoryDataProps {
+  id?: number
+  date: string | string[]
+}

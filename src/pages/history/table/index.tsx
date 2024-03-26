@@ -8,7 +8,7 @@ import { useActions } from '@/features/hooks/useActions'
 
 const HistoryTable: FC = () => {
   const { selectedDate } = useSelectors()
-  const { data, isLoading } = useGetAllHistoryQuery(selectedDate)
+  const { data, isLoading } = useGetAllHistoryQuery({date: selectedDate})
   const { setSelectedOrganizationID } = useActions()
 
   const columns: TableProps<IHistoryData>['columns'] = [

@@ -22,7 +22,7 @@ const OrganizationsTable: FC = () => {
 
   const handleClickWatch = (id: number) => {
     setSelectedOrganizationID(id)
-    navigate('/group')
+    navigate('/admin/group')
   }
 
   const columns: TableProps<IOrganizationData>['columns'] = [

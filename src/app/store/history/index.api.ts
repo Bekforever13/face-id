@@ -1,15 +1,19 @@
 import { IData } from '@/shared/types/Types'
 import { api } from '../index.api'
-import { IHistoryData } from './index.types'
+import { IHistoryData, IHistoryDataProps } from './index.types'
 
 export const HistoryApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getAllHistory: builder.query<IData<IHistoryData>, string | string[]>({
-      query: (date) => ({
-        url: `/reports${date ? `?time=${date}` : ''}`,
-      }),
-      providesTags: ['history'],
-    }),
+    getAllHistory: builder.query<IData<IHistoryData>, IHistoryDataProps | void>(
+      {
+        query: (body) => ({
+          url: `/reports${body?.date ? `?time=${body.date}&` : '?'}${
+            body?.id ? `child_id=${body.id}` : ''
+          }`,
+        }),
+        providesTags: ['history'],
+      },
+    ),
     getOneHistory: builder.query<unknown, number>({
       query: (id) => ({
         url: `/reports${id ? `?child_id=${id}` : ''}`,

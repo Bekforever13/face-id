@@ -1,7 +1,10 @@
 import { FC, useEffect } from 'react'
 import { Button, Popconfirm, Space, Table, message, Image } from 'antd'
 import type { TableProps } from 'antd'
-import { useDeleteUserMutation, useGetAllUsersQuery } from '@/app/store/index.endpoints'
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+} from '@/app/store/index.endpoints'
 import { BsArrowRight, BsTrash } from 'react-icons/bs'
 import { BsPencilSquare } from 'react-icons/bs'
 import { useActions } from '@/features/hooks/useActions'
@@ -20,35 +23,32 @@ const UsersTable: FC = () => {
 
   const handleClickWatch = (id: number) => {
     setSelectedUserID(id)
-    navigate('/history')
+    navigate('/admin/history')
   }
 
   const columns: TableProps<IUserData>['columns'] = [
     {
       title: 'Имя',
       dataIndex: 'first_name',
-      key: 'first_name',
     },
     {
       title: 'Фамилия',
       dataIndex: 'last_name',
-      key: 'last_name',
     },
     {
       title: 'Группа',
       dataIndex: 'group',
-      key: 'group',
       render: (_, rec) => rec?.group?.name,
     },
     {
       title: 'Изображение',
       dataIndex: 'images',
-      key: 'images',
-      render: (_, rec) => <Image src={rec?.images?.[0]?.url} width={100} height={150} />,
+      render: (_, rec) => (
+        <Image src={rec?.images?.[0]?.url} width={100} height={150} />
+      ),
     },
     {
       title: 'Действия',
-      key: 'action',
       render: (_, rec) => (
         <Space size="middle">
           <Button

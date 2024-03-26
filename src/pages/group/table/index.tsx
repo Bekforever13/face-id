@@ -21,7 +21,7 @@ const GroupsTable: FC = () => {
 
   const handleClickWatch = (id: number) => {
     setSelectedGroupID(id)
-    navigate('/users')
+    navigate('/admin/users')
   }
 
   const columns: TableProps<IGroupData>['columns'] = [

@@ -4,6 +4,7 @@ import { reducer as organizations } from './organizations/index.slice'
 import { reducer as groups } from './group/index.slice'
 import { reducer as users } from './user/index.slice'
 import { reducer as history } from './history/index.slice'
+import { reducer as main } from './main/index.slice'
 import { setupListeners } from '@reduxjs/toolkit/query'
 
 const reducers = combineReducers({
@@ -11,6 +12,7 @@ const reducers = combineReducers({
   groups,
   users,
   history,
+  main,
   [api.reducerPath]: api.reducer,
 })
 
