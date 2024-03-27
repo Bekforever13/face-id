@@ -17,8 +17,10 @@ const OrganizationsModal = () => {
   const [selectedFile, setSelectedFile] = useState<any>(null)
   const { organizationsModalOpen, organizationToEdit } = useSelectors()
   const { setOrganizationsModalOpen, setOrganizationToEdit } = useActions()
-  const [createOrganization, { isLoading: createLoading, isSuccess: createSuccess }] =
-    useCreateOrganizationMutation()
+  const [
+    createOrganization,
+    { isLoading: createLoading, isSuccess: createSuccess },
+  ] = useCreateOrganizationMutation()
   const [editOrganization, { isSuccess: editSuccess, isLoading: editLoading }] =
     useEditOrganizationMutation()
 
@@ -29,6 +31,7 @@ const OrganizationsModal = () => {
       id: 0,
       image: '',
       name: '',
+      org: 0,
     })
     form.resetFields()
     setSelectedFile(null)
@@ -41,6 +44,7 @@ const OrganizationsModal = () => {
         name: form.getFieldValue('name'),
         address: form.getFieldValue('address'),
         image: '',
+        org: 0,
       })
     } else {
       const formData = new FormData()
@@ -71,7 +75,11 @@ const OrganizationsModal = () => {
         <Button type="default" key="cancel" onClick={handleCancel}>
           Отмена
         </Button>,
-        <UiButton loading={createLoading || editLoading} onClick={() => form.submit()} key="submit">
+        <UiButton
+          loading={createLoading || editLoading}
+          onClick={() => form.submit()}
+          key="submit"
+        >
           Сохранить
         </UiButton>,
       ]}
@@ -98,7 +106,9 @@ const OrganizationsModal = () => {
           <Form.Item
             label="Изображение"
             name="images"
-            rules={[{ required: true, message: 'Пожалуйста, выберите изображение.' }]}
+            rules={[
+              { required: true, message: 'Пожалуйста, выберите изображение.' },
+            ]}
           >
             <div>
               <div className="flex items-center gap-2 cursor-pointer">

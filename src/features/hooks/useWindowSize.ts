@@ -22,9 +22,7 @@ const useWindowSize = (): [number, number] => {
     window.addEventListener('resize', handleResize)
 
     // Удаление слушателя событий при размонтировании компонента
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
+    return () => window.removeEventListener('resize', handleResize)
   }, []) // Пустой массив зависимостей означает, что эффект выполнится только при монтировании компонента
 
   return [windowSize.width, windowSize.height]

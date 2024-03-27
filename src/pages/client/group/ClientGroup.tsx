@@ -29,7 +29,7 @@ const ClientGroup = () => {
       <Button onClick={() => navigate(-1)} type="primary">
         Назад
       </Button>
-      <div className="grid grid-cols-4 gap-10">
+      <div className="flex items-start flex-wrap gap-10">
         {state?.data?.map((el: IGroupData) => (
           <Tag
             key={el.id}

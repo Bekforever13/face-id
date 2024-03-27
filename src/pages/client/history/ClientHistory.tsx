@@ -7,11 +7,13 @@ import type { TableProps, DatePickerProps } from 'antd'
 
 const ClientHistory = () => {
   const navigate = useNavigate()
+  const [page, setPage] = useState(1)
   const [selectedDate, setSelectedDate] = useState<string | string[]>('')
   const { state } = useLocation()
   const { data, isLoading } = useGetAllHistoryQuery({
     id: state,
     date: selectedDate,
+    page,
   })
 
   const onChange: DatePickerProps['onChange'] = (_, dateString) => {
@@ -67,12 +69,18 @@ const ClientHistory = () => {
         <DatePicker placeholder="Выберите дату" onChange={onChange} />
       </div>
       <Table
-        loading={isLoading}
-        scroll={{ x: true }}
         columns={columns}
-        rowKey={(el) => el.id}
-        style={{ width: '100%' }}
         dataSource={data?.data}
+        loading={isLoading}
+        pagination={{
+          total: data?.total,
+          current: page,
+          showSizeChanger: false,
+          onChange: (e) => setPage(e),
+        }}
+        rowKey={(e) => e.id}
+        scroll={{ x: true }}
+        style={{ width: '100%' }}
       />
     </div>
   )

@@ -8,6 +8,7 @@ const initialState: IOrganizationInitState = {
     id: 0,
     image: '',
     name: '',
+    org: 0
   },
   selectedOrganizationID: 0,
 }

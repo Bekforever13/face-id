@@ -27,4 +27,8 @@ export const {
   useEditUserMutation,
 } = UsersAPI
 
-export const { useGetAllHistoryQuery, useGetOneHistoryQuery } = HistoryApi
+export const {
+  useGetAllHistoryQuery,
+  useGetOneHistoryQuery,
+  useGetOrganizationHistoryQuery,
+} = HistoryApi

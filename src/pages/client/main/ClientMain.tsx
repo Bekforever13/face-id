@@ -3,24 +3,74 @@ import {
   // useGetAllHistoryQuery,
   useGetAllOrganizationsQuery,
   useGetAllUsersQuery,
+  useGetOrganizationHistoryQuery,
 } from '@/app/store/index.endpoints'
 import { useSelectors } from '@/features/hooks/useSelectors'
-import { Spin } from 'antd'
+import { ConfigProvider, Image, Spin, Table } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { FaUsers } from 'react-icons/fa'
 import { MdGroupOff } from 'react-icons/md'
 import { GiMeepleGroup } from 'react-icons/gi'
+import type { TableProps } from 'antd'
+import { IHistoryData } from '@/app/store/history/index.types'
+import { useState } from 'react'
+
+const columns: TableProps<IHistoryData>['columns'] = [
+  {
+    title: 'Пользователь',
+    dataIndex: 'child',
+    key: 'child',
+    render: (_, rec) => rec.child.first_name + ' ' + rec.child.last_name,
+  },
+  {
+    title: 'Группа',
+    dataIndex: 'group',
+    key: 'group',
+    render: (_, rec) => rec.group.name,
+  },
+  {
+    title: 'Схожесть в %',
+    dataIndex: 'score',
+    key: 'score',
+  },
+  {
+    title: 'Дата',
+    dataIndex: 'time',
+    key: 'time',
+  },
+  {
+    title: 'Изображения',
+    dataIndex: 'images',
+    key: 'images',
+    render: (_, rec) => {
+      return (
+        <div className="flex gap-2 flex-wrap">
+          {rec.images.map((el) => (
+            <Image key={el.id} src={el.url} width={50} height={70} />
+          ))}
+        </div>
+      )
+    },
+  },
+]
 
 const ClientMain = () => {
+  const [page, setPage] = useState(1)
   const { mainSelectedOrganization } = useSelectors()
   const { data: groups } = useGetAllGroupsQuery(+mainSelectedOrganization)
   const { data: users } = useGetAllUsersQuery(+mainSelectedOrganization)
   const { data: orgs } = useGetAllOrganizationsQuery()
-  // const { data } = useGetAllHistoryQuery()
+  const { data: history, isLoading: historyLoading } =
+    useGetOrganizationHistoryQuery(+mainSelectedOrganization, {
+      pollingInterval: 30000, //refetch every 10sec
+      skipPollingIfUnfocused: true,
+    })
   const navigate = useNavigate()
   const organization = orgs?.data?.find(
     (el) => el.id === +mainSelectedOrganization,
   )
+
+  console.log(history)
 
   // console.log(new Date().toLocaleDateString().replace(/[/]/g, '-'))
 
@@ -131,13 +181,32 @@ const ClientMain = () => {
           </span>
         </div>
       </div>
-      {/* <Table
-        loading={isLoading}
-        scroll={{ x: true }}
-        columns={columns}
-        rowKey={(el) => el.id}
-        dataSource={data?.data}
-      /> */}
+      <ConfigProvider
+        theme={{
+          components: {
+            Table: {
+              headerBg: '#378CE7',
+              colorBgContainer: '#DFF5FF',
+              headerColor: 'white',
+            },
+          },
+        }}
+      >
+        <Table
+          columns={columns}
+          dataSource={history?.data}
+          loading={historyLoading}
+          pagination={{
+            total: history?.total,
+            current: page,
+            showSizeChanger: false,
+            onChange: (e) => setPage(e),
+          }}
+          rowKey={(e) => e.id}
+          scroll={{ x: true }}
+          style={{ width: '100%' }}
+        />
+      </ConfigProvider>
     </div>
   )
 }

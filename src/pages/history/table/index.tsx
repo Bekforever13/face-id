@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Image, Table } from 'antd'
 import type { TableProps } from 'antd'
 import { useGetAllHistoryQuery } from '@/app/store/index.endpoints'
@@ -7,8 +7,12 @@ import { useSelectors } from '@/features/hooks/useSelectors'
 import { useActions } from '@/features/hooks/useActions'
 
 const HistoryTable: FC = () => {
+  const [page, setPage] = useState(1)
   const { selectedDate } = useSelectors()
-  const { data, isLoading } = useGetAllHistoryQuery({date: selectedDate})
+  const { data, isLoading } = useGetAllHistoryQuery({
+    date: selectedDate,
+    page,
+  })
   const { setSelectedOrganizationID } = useActions()
 
   const columns: TableProps<IHistoryData>['columns'] = [
@@ -61,6 +65,13 @@ const HistoryTable: FC = () => {
       columns={columns}
       rowKey={(el) => el.id}
       dataSource={data?.data}
+      style={{ width: '100%' }}
+      pagination={{
+        total: data?.total,
+        current: page,
+        showSizeChanger: false,
+        onChange: (e) => setPage(e),
+      }}
     />
   )
 }

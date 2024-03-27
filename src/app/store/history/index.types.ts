@@ -20,4 +20,5 @@ export interface IHistoryInitState {
 export interface IHistoryDataProps {
   id?: number
   date: string | string[]
+  page: number
 }
