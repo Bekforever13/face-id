@@ -16,10 +16,8 @@ const ClientHistory = () => {
     page,
   })
 
-  const onChange: DatePickerProps['onChange'] = (_, dateString) => {
-    console.log(dateString)
+  const onChange: DatePickerProps['onChange'] = (_, dateString) =>
     setSelectedDate(dateString)
-  }
 
   const columns: TableProps<IHistoryData>['columns'] = [
     {
@@ -63,10 +61,13 @@ const ClientHistory = () => {
   return (
     <div className="flex flex-col items-start gap-10">
       <div className="flex items-center justify-between w-full">
-        <Button onClick={() => navigate(-1)} type="primary">
+        <Button onClick={() => navigate('/users')} type="primary">
           Назад
         </Button>
-        <DatePicker placeholder="Выберите дату" onChange={onChange} />
+        <div className='flex items-center gap-3'>
+          Выберите дату
+          <DatePicker placeholder="Выберите дату" onChange={onChange} />
+        </div>
       </div>
       <Table
         columns={columns}

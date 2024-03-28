@@ -26,7 +26,7 @@ const ClientGroup = () => {
 
   return (
     <div className="flex flex-col items-start gap-10">
-      <Button onClick={() => navigate(-1)} type="primary">
+      <Button onClick={() => navigate('/')} type="primary">
         Назад
       </Button>
       <div className="flex items-start flex-wrap gap-10">

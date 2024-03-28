@@ -14,10 +14,7 @@ const Heading: FC<Props> = ({ title, event }) => {
   const { pathname } = useLocation()
   const { setSelectedDate } = useActions()
 
-  const onChange: DatePickerProps['onChange'] = (_, dateString) => {
-    console.log(dateString)
-    setSelectedDate(dateString)
-  }
+  const onChange: DatePickerProps['onChange'] = (_, dateString) => setSelectedDate(dateString)
 
   return (
     <div className="flex items-center justify-between">

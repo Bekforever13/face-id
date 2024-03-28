@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { useGetAllOrganizationsQuery } from '@/app/store/index.endpoints'
 import { useActions } from '@/features/hooks/useActions'
 import { useSelectors } from '@/features/hooks/useSelectors'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import logo from '@/shared/img/logo.svg'
 import { useWindowSize } from '@/features/hooks/useWindowSize'
 import { MdChildCare } from 'react-icons/md'
@@ -22,13 +22,6 @@ const ClientMenu: FC = () => {
   const { setMainSelectedOrganization } = useActions()
   const { mainSelectedOrganization } = useSelectors()
   const [width] = useWindowSize()
-  const navitate = useNavigate()
-
-  console.log(menuItems)
-  const handleClickRoute = (id: string) => {
-    navitate('/')
-    setMainSelectedOrganization(id)
-  }
 
   useEffect(() => {
     if (data) {
@@ -85,7 +78,9 @@ const ClientMenu: FC = () => {
             {menuItems?.map((item) => {
               return (
                 <div
-                  onClick={() => handleClickRoute(item.key.toString())}
+                  onClick={() =>
+                    setMainSelectedOrganization(item.key.toString())
+                  }
                   key={item?.key}
                   className={`flex lg:w-full max-lg:w-fit items-center gap-3 text-lg lg:p-5 max-lg:p-2 rounded-xl cursor-pointer hover:bg-[#0000001a]
               ${+mainSelectedOrganization === item?.key ? 'bg-[#0000002a]' : ''}
@@ -102,22 +97,20 @@ const ClientMenu: FC = () => {
         </div>
       </div>
       <div className="flex lg:flex-col gap-y-2 w-full justify-end max-lg:flex-row max-sm:hidden">
-        {menuItems?.map((item) => {
-          return (
-            <div
-              onClick={() => handleClickRoute(item.key.toString())}
-              key={item?.key}
-              className={`flex lg:w-full max-lg:w-fit items-center gap-3 text-lg lg:p-5 max-lg:p-2 rounded-xl cursor-pointer hover:bg-[#0000001a]
-              ${+mainSelectedOrganization === item?.key ? 'bg-[#0000002a]' : ''}
-              `}
-            >
-              <span className="lg:block max-lg:hidden">
-                {+item?.org === 1 ? <MdChildCare /> : <IoIosSchool />}
-              </span>
-              {item?.label}
-            </div>
-          )
-        })}
+        {menuItems?.map((item) => (
+          <NavLink
+            to="/"
+            onClick={() => setMainSelectedOrganization(item.key.toString())}
+            key={item?.key}
+            className={`flex lg:w-full max-lg:w-fit items-center gap-3 text-lg lg:p-5 max-lg:p-2 rounded-xl cursor-pointer hover:bg-[#0000001a]
+            ${+mainSelectedOrganization === item?.key ? 'bg-[#0000002a]' : ''}`}
+          >
+            <span className="lg:block max-lg:hidden">
+              {+item?.org === 1 ? <MdChildCare /> : <IoIosSchool />}
+            </span>
+            {item?.label}
+          </NavLink>
+        ))}
       </div>
     </div>
   )

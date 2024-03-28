@@ -55,10 +55,12 @@ const ClientUsers = () => {
   return (
     <div className="flex flex-col items-start gap-10">
       <div className="flex items-center justify-between w-full">
-        <Button onClick={() => navigate(-1)} type="primary">
+        <Button onClick={() => navigate('/')} type="primary">
           Назад
         </Button>
-        <div><b>Сегодня:</b> {new Date().toLocaleDateString()}</div>
+        <div>
+          <b>Сегодня:</b> {new Date().toLocaleDateString()}
+        </div>
       </div>
       <Table
         loading={isLoading}
