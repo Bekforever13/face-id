@@ -1,6 +1,11 @@
 import { IData } from '@/shared/types/Types'
 import { api } from '../index.api'
-import { IHistoryData, IHistoryDataProps, IOrganizationHistoryProps, IUnidentifiedProps, IUnknownPerson } from './index.types'
+import {
+  IHistoryData,
+  IHistoryDataProps,
+  IUnidentifiedProps,
+  IUnknownPerson,
+} from './index.types'
 
 export const HistoryApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,19 +24,22 @@ export const HistoryApi = api.injectEndpoints({
         url: `/reports${id ? `?child_id=${id}` : ''}`,
       }),
     }),
-    getOrganizationHistory: builder.query<IData<IHistoryData>, IOrganizationHistoryProps>({
+    getOrganizationHistory: builder.query<IData<IHistoryData>, string>({
       query: (id) => ({
         url: `/kindergarten/${id}/reports`,
       }),
     }),
-    getOrganizationUnknownPerson: builder.query<IData<IUnknownPerson>, IUnidentifiedProps>({
+    getOrganizationUnknownPerson: builder.query<
+      IData<IUnknownPerson>,
+      IUnidentifiedProps
+    >({
       query: (body) => ({
         url: '/unknown/reports',
         params: {
           limit: 10,
           kindergarten_id: body.kindergarten_id,
-          page: body.page
-        }
+          page: body.page,
+        },
       }),
     }),
   }),
