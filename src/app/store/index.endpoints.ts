@@ -31,4 +31,5 @@ export const {
   useGetAllHistoryQuery,
   useGetOneHistoryQuery,
   useGetOrganizationHistoryQuery,
+  useGetOrganizationUnknownPersonQuery
 } = HistoryApi

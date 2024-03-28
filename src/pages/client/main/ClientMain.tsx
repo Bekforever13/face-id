@@ -4,6 +4,7 @@ import {
   useGetAllOrganizationsQuery,
   useGetAllUsersQuery,
   useGetOrganizationHistoryQuery,
+  useGetOrganizationUnknownPersonQuery,
 } from '@/app/store/index.endpoints'
 import { useSelectors } from '@/features/hooks/useSelectors'
 import { ConfigProvider, Image, Spin, Table } from 'antd'
@@ -59,12 +60,19 @@ const ClientMain = () => {
   const { mainSelectedOrganization } = useSelectors()
   const { data: groups } = useGetAllGroupsQuery(+mainSelectedOrganization)
   const { data: users } = useGetAllUsersQuery(+mainSelectedOrganization)
+  const { data: unidentifieds } = useGetOrganizationUnknownPersonQuery({
+    kindergarten_id: mainSelectedOrganization,
+    page: 1,
+  })
   const { data: orgs } = useGetAllOrganizationsQuery()
   const { data: history, isLoading: historyLoading } =
-    useGetOrganizationHistoryQuery(+mainSelectedOrganization, {
-      pollingInterval: 30000, //refetch every 10sec
-      skipPollingIfUnfocused: true,
-    })
+    useGetOrganizationHistoryQuery(
+      { mainSelectedOrganization, page },
+      {
+        pollingInterval: 60000, //refetch every 1minut
+        skipPollingIfUnfocused: true,
+      },
+    )
   const navigate = useNavigate()
   const organization = orgs?.data?.find(
     (el) => el.id === +mainSelectedOrganization,
@@ -94,7 +102,7 @@ const ClientMain = () => {
         >
           <div className="flex items-start justify-between gap-y-5 py-5 px-10 bg-[#DFF5FF] rounded-t-2xl">
             <span className="font-bold text-5xl text-[#378CE7]">
-              {groups?.total}
+              {groups?.total ?? 0}
             </span>
             <GiMeepleGroup size="48" color="#378CE7" />
           </div>
@@ -108,7 +116,7 @@ const ClientMain = () => {
         >
           <div className="flex items-start justify-between gap-y-5 py-5 px-10 bg-[#DFF5FF] rounded-t-2xl">
             <span className="font-bold text-5xl text-[#378CE7]">
-              {users?.total}
+              {users?.total ?? 0}
             </span>
             <FaUsers size="48" color="#378CE7" />
           </div>
@@ -122,7 +130,7 @@ const ClientMain = () => {
         >
           <div className="flex items-start justify-between gap-y-5 py-5 px-10 bg-[#DFF5FF] rounded-t-2xl">
             <span className="font-bold text-5xl text-[#378CE7]">
-              {users?.total}
+              {unidentifieds?.total ?? 0}
             </span>
             <MdGroupOff size="48" color="#378CE7" />
           </div>
